@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<script>
+    function login() {
+        const xhr = new XMLHttpRequest();
+        let requestURL = 'http://localhost:7000/user/login'
+
+        const login = document.getElementById("login").value
+        const pass = document.getElementById("pass").value
+        var data = {
+            email: login,
+            password: pass
+        }
+
+        xhr.open('post', requestURL);
+        
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        
+        const storage = window.localStorage;
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState !== 4 || xhr.status !== 200) {
+                storage.setItem('token', JSON.parse(xhr.responseText).token)
+                location.href = 'index.html';
+                return;
+            }
+        }
+        xhr.send(JSON.stringify(data));
+}
+</script>
+<html>
+    <body>
+        <div>
+            <input id="login" placeholder="login" style="width: 100px;" value="testEmail4"/>
+        </div>
+        <div>
+            <input id="pass" placeholder="password" style="width: 100px;" value="pass"/>
+        </div>
+        <div>
+            <button onclick="login()">Login</button>
+        </div>
+    </body>
+</html>

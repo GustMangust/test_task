@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<script>
+    function getUsers() {
+        const storage = window.localStorage;
+        
+        const xhr = new XMLHttpRequest();
+        var elem = document.getElementById('message')
+        let requestURL = 'http://localhost:7000/user/'
+        xhr.open('get', requestURL);
+        const token =storage.getItem('token');
+
+        xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState !== 4 || xhr.status !== 200) {
+                elem.innerHTML = xhr.responseText
+                return;
+            }
+        }
+        xhr.send();
+    }
+</script>
+<html>
+    <body>
+        <div>
+            <button onclick="getUsers()">Check GetAll method</button>
+        </div>
+        <p id="message"></p>
+    </body>
+</html>
